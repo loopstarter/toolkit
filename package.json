@@ -1,7 +1,7 @@
 {
-  "name": "pancake-toolkit",
+  "name": "loopstarter",
   "version": "1.0.0",
-  "description": "Pancake frontend packages",
+  "description": "Loopstarter frontend packages",
   "private": true,
   "workspaces": [
     "packages/*"
