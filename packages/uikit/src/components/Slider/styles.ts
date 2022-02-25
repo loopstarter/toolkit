@@ -56,7 +56,6 @@ export const SliderLabel = styled(Text)<SliderLabelProps>`
 `;
 
 export const BunnyButt = styled.div<DisabledProp>`
-  background: url(${bunnyButt}) no-repeat;
   height: 32px;
   filter: ${({ disabled }) => (disabled ? "grayscale(100%)" : "none")};
   position: absolute;
@@ -65,11 +64,11 @@ export const BunnyButt = styled.div<DisabledProp>`
 
 export const BunnySlider = styled.div`
   position: absolute;
-  left: 14px;
   width: calc(100% - 14px);
 `;
 
 export const StyledInput = styled.input<StyledInputProps>`
+  display: none;
   cursor: ${getCursorStyle};
   height: 32px;
   position: relative;
@@ -88,8 +87,9 @@ export const StyledInput = styled.input<StyledInputProps>`
 `;
 
 export const BarBackground = styled.div<DisabledProp>`
-  background-color: ${({ theme, disabled }) => theme.colors[disabled ? "textDisabled" : "inputSecondary"]};
-  height: 2px;
+  background: #ffffff;
+  border-radius: 100px;
+  height: 10px;
   position: absolute;
   top: 18px;
   width: 100%;
@@ -101,4 +101,5 @@ export const BarProgress = styled.div<DisabledProp>`
   height: 10px;
   position: absolute;
   top: 18px;
+  border-radius: 100px;
 `;
