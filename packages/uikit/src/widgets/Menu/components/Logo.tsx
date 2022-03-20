@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import Flex from "../../../components/Box/Flex";
-import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
+import { LogoSecondaryIcon, LogoWithTextIcon } from "../../../components/Svg";
 import { MenuContext } from "../context";
 
 interface Props {
-  isDark: boolean;
+  scrollMenu: boolean;
   href: string;
 }
 
@@ -43,14 +43,10 @@ const StyledLink = styled("a")`
   }
 `;
 
-const Logo: React.FC<Props> = ({ isDark, href }) => {
+const Logo: React.FC<Props> = ({ href, scrollMenu }) => {
   const { linkComponent } = useContext(MenuContext);
   const isAbsoluteUrl = href.startsWith("http");
-  const innerLogo = (
-    <>
-      <LogoWithTextIcon className="desktop-icon" isDark={isDark} />
-    </>
-  );
+  const innerLogo = scrollMenu ? <LogoSecondaryIcon /> : <LogoWithTextIcon className="desktop-icon" />;
 
   return (
     <Flex>
@@ -67,4 +63,4 @@ const Logo: React.FC<Props> = ({ isDark, href }) => {
   );
 };
 
-export default React.memo(Logo, (prev, next) => prev.isDark === next.isDark);
+export default Logo;

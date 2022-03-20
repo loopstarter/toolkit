@@ -24,16 +24,16 @@ const StyledMenuItem = styled.a<StyledMenuItemProps>`
   position: relative;
   display: flex;
   align-items: center;
-
-  color: ${({ theme, $isActive }) => ($isActive ? "#FFAA2E" : "#fff")};
+  font-family: FSMagistralLight;
+  color: ${({ theme, $isActive, scrollMenu }) => (scrollMenu ? "#100052" : $isActive ? "#FFAA2E" : "#fff")};
   font-family: FSMagistralLight;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 21px;
   svg {
-      fill: ${({ theme, $isActive }) => ($isActive ? "#FFAA2E" : "#fff")};
-    }
+    fill: ${({ theme, $isActive }) => ($isActive ? "#FFAA2E" : "#fff")};
+  }
   ${({ $statusColor, theme }) =>
     $statusColor &&
     `
@@ -59,9 +59,9 @@ const StyledMenuItem = styled.a<StyledMenuItemProps>`
   `}
 
   &:hover {
-    color: #FFAA2E;
+    color: #ffaa2e;
     svg {
-      fill: #FFAA2E;
+      fill: #ffaa2e;
     }
   }
 `;

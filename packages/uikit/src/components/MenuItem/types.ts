@@ -8,10 +8,12 @@ export interface MenuItemProps {
   variant?: MenuItemVariant;
   statusColor?: keyof Colors;
   hasItems?: boolean;
+  scrollMenu?: boolean;
 }
 
 export type StyledMenuItemProps = {
   $isActive?: boolean;
   $variant?: MenuItemVariant;
   $statusColor?: keyof Colors;
+  scrollMenu?: boolean;
 };

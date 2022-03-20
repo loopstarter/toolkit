@@ -4,15 +4,11 @@ import styled from "styled-components";
 import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
 import Flex from "../../components/Box/Flex";
-import Footer from "../../components/Footer";
 import MenuItems from "../../components/MenuItems/MenuItems";
-import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
-import CakePrice from "../../components/CakePrice/CakePrice";
 import Logo from "./components/Logo";
-import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
+import { MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
-import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
 
 const Wrapper = styled.div`
@@ -20,13 +16,13 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<{ scrollMenu: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: ${MENU_HEIGHT}px;
-  background-color: transparent;
+  background-color: ${({ scrollMenu }) => (scrollMenu ? "#fff" : "transparent")};
   transform: translate3d(0, 0, 0);
 
   padding-left: 16px;
@@ -35,14 +31,16 @@ const StyledNav = styled.nav`
   margin: 0 auto;
 `;
 
-const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
+const FixedContainer = styled.div<{ showMenu: boolean; height: number; scrollMenu: boolean }>`
   position: fixed;
-  top: ${({ showMenu, height }) => (showMenu ? 0 : `-${height}px`)};
+  top: ${({ showMenu, height }) => (showMenu ? 0 : "-100px")};
   left: 0;
   transition: top 0.2s;
-  height: ${({ height }) => `${height}px`};
+  // height: ${({ height }) => `${height}px`};
   width: 100%;
   z-index: 20;
+  background-color: ${({ scrollMenu }) => (scrollMenu ? "#fff" : "transparent")};
+  padding: 22px 0;
 `;
 
 const TopBannerContainer = styled.div<{ height: number }>`
@@ -68,23 +66,15 @@ const Menu: React.FC<NavProps> = ({
   linkComponent = "a",
   userMenu,
   banner,
-  globalMenu,
   isDark,
-  toggleTheme,
-  currentLang,
-  setLang,
-  cakePriceUsd,
   links,
-  subLinks,
-  footerLinks,
   activeItem,
   activeSubItem,
-  langs,
-  buyCakeLabel,
   children,
 }) => {
   const { isMobile } = useMatchBreakpoints();
   const [showMenu, setShowMenu] = useState(true);
+  const [scrollMenu, setScrollMenu] = useState(false);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
@@ -99,12 +89,14 @@ const Menu: React.FC<NavProps> = ({
       // Always show the menu when user reach the top
       if (isTopOfPage) {
         setShowMenu(true);
+        setScrollMenu(false);
       }
       // Avoid triggering anything at the bottom because of layout shift
       else if (!isBottomOfPage) {
         if (currentOffset < refPrevOffset.current || currentOffset <= totalTopMenuHeight) {
           // Has scroll up
           setShowMenu(true);
+          setScrollMenu(true);
         } else {
           // Has scroll down
           setShowMenu(false);
@@ -123,26 +115,30 @@ const Menu: React.FC<NavProps> = ({
   // Find the home link if provided
   const homeLink = links.find((link) => link.label === "Home");
 
-  const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
-  const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
-
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
-        <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
+        <FixedContainer scrollMenu={scrollMenu} showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
-          <StyledNav>
+          <StyledNav scrollMenu={scrollMenu}>
             <Flex>
-              <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
-              
+              <Logo href={homeLink?.href ?? "/"} scrollMenu={scrollMenu} />
             </Flex>
             <Flex alignItems="center" height="100%">
-            {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
+              {!isMobile && (
+                <MenuItems
+                  scrollMenu={scrollMenu}
+                  items={links}
+                  activeItem={activeItem}
+                  activeSubItem={activeSubItem}
+                  ml="24px"
+                />
+              )}
               {userMenu}
             </Flex>
           </StyledNav>
         </FixedContainer>
-        <BodyWrapper >
+        <BodyWrapper>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>

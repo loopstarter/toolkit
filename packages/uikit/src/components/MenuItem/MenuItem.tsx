@@ -11,6 +11,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   variant = "default",
   statusColor,
   hasItems,
+  scrollMenu,
   ...props
 }) => {
   const { linkComponent } = useContext(MenuContext);
@@ -24,7 +25,14 @@ const MenuItem: React.FC<MenuItemProps> = ({
       };
   return (
     <StyledMenuItemContainer $isActive={isActive} $variant={variant}>
-      <StyledMenuItem {...itemLinkProps} $isActive={isActive} $variant={variant} $statusColor={statusColor} {...props}>
+      <StyledMenuItem
+        {...itemLinkProps}
+        $isActive={isActive}
+        $variant={variant}
+        $statusColor={statusColor}
+        {...props}
+        scrollMenu={scrollMenu}
+      >
         {children}
         {hasItems && <IconComponent iconName="ChevronDown" />}
       </StyledMenuItem>
