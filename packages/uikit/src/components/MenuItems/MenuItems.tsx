@@ -9,7 +9,7 @@ import { MenuItemsProps } from "./types";
 const MenuItems: React.FC<MenuItemsProps> = ({ items = [], activeItem, activeSubItem, scrollMenu, ...props }) => {
   return (
     <Flex {...props}>
-      {items.map(({ label, items: menuItems = [], href, icon = "" }) => {
+      {items.map(({ label, items: menuItems = [], href, icon = "", ...otherProps }) => {
         const statusColor = menuItems?.find((menuItem) => menuItem.status !== undefined)?.status?.color;
         const isActive = activeItem === href;
         const linkProps = isTouchDevice() && menuItems && menuItems.length > 0 ? {} : { href };
@@ -17,6 +17,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ items = [], activeItem, activeSub
           <DropdownMenu key={`${label}#${href}#${icon}`} items={menuItems} py={1} activeItem={activeSubItem}>
             <MenuItem
               {...linkProps}
+              {...otherProps}
               isActive={isActive}
               statusColor={statusColor}
               hasItems={menuItems.length > 0}
