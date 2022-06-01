@@ -22,7 +22,10 @@ interface Props {
 const WalletWrapper = styled(Box)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
 `;
-
+const ButtonStyled = styled(Button)`
+  background: linear-gradient(106.04deg, #ffc677 -44.63%, #c94fd8 92.68%);
+  border-radius: 5px;
+`;
 /**
  * Checks local storage if we have saved the last wallet the user connected with
  * If we find something we put it at the top of the list
@@ -57,7 +60,7 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, displayC
 
   return (
     <ModalContainer minWidth="320px">
-      <ModalHeader background={getThemeValue("colors.gradients.bubblegum")(theme)}>
+      <ModalHeader>
         <ModalTitle>
           <Heading>{t("Connect Wallet")}</Heading>
         </ModalTitle>
@@ -81,8 +84,12 @@ const ConnectModal: React.FC<Props> = ({ login, onDismiss = () => null, displayC
           <Button
             as="a"
             href="https://docs.pancakeswap.finance/get-started/connection-guide"
-            variant="subtle"
+            variant="primary"
             width="100%"
+            style={{
+              background: "linear-gradient(106.04deg, #ffc677 -44.63%, #c94fd8 92.68%)",
+              borderRadius: 8
+            }}
             {...getExternalLinkProps()}
           >
             {t("Learn How to Connect")}
